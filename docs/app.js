@@ -46,8 +46,29 @@ function isDeployed() {
   return CONFIG.CONTRACT_ADDRESS.toLowerCase() !== ZERO_ADDRESS;
 }
 
+// Try the configured RPCs in order, return the first that answers.
+// Public BSC endpoints rate-limit, so a single hard-coded RPC makes the
+// pact list fail spuriously. Returns a provider for the first URL as a
+// last resort so callers can still surface a real error.
+async function pickProvider(urls) {
+  const list = urls && urls.length ? urls : [CONFIG.RPC_URL];
+  for (const url of list) {
+    try {
+      const p = new ethers.JsonRpcProvider(url);
+      await Promise.race([
+        p.getNetwork(),
+        new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 8000))
+      ]);
+      return p;
+    } catch (e) {
+      console.warn("RPC unavailable:", url, e.message || e);
+    }
+  }
+  return new ethers.JsonRpcProvider(list[0]);
+}
+
 async function init() {
-  readProvider = new ethers.JsonRpcProvider(CONFIG.RPC_URL);
+  readProvider = await pickProvider(CONFIG.RPC_URLS);
   if (isDeployed()) {
     readContract = new ethers.Contract(CONFIG.CONTRACT_ADDRESS, PACT_ABI, readProvider);
     $("contractLine").innerHTML =
@@ -122,7 +143,7 @@ async function connect() {
   }
 }
 
-async function loadPacts() {
+async function loadPacts(retried = false) {
   const list = $("pactList");
   if (!isDeployed()) {
     list.innerHTML = '<p class="hint">No pacts yet — the contract is not deployed on this network.</p>';
@@ -164,6 +185,12 @@ async function loadPacts() {
     render();
   } catch (err) {
     console.error(err);
+    if (!retried) {
+      // The RPC may have rate-limited; try another one, then retry once.
+      readProvider = await pickProvider(CONFIG.RPC_URLS);
+      readContract = new ethers.Contract(CONFIG.CONTRACT_ADDRESS, PACT_ABI, readProvider);
+      return loadPacts(true);
+    }
     list.innerHTML = '<p class="hint">Could not load pacts. Check your connection and try Refresh.</p>';
   }
 }
