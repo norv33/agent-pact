@@ -1,0 +1,134 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: #f6f7f9;
+  color: #1c2333;
+  line-height: 1.5;
+}
+
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+
+header {
+  background: #14161f;
+  color: #fff;
+  padding: 32px 0 24px;
+}
+
+header h1 { margin: 0 0 8px; font-size: 2rem; }
+.tagline { margin: 0 0 16px; color: #c3c9d6; }
+
+.wallet-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+.status {
+  background: #232838;
+  color: #dfe4ee;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.status.good { background: #14532d; color: #bbf7d0; }
+.status.bad { background: #7f1d1d; color: #fecaca; }
+
+.notice {
+  margin-top: 16px;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.hidden { display: none; }
+
+main { padding: 24px 0; }
+
+.card {
+  background: #fff;
+  border: 1px solid #e3e6ec;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+}
+
+.card h2 { margin-top: 0; }
+.card.small { font-size: 0.95rem; }
+
+.hint { color: #5b6474; font-size: 0.92rem; }
+.msg { min-height: 1.2em; color: #37507a; }
+
+label { display: block; margin: 12px 0; font-weight: 600; }
+input[type="text"], input[type="datetime-local"] {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid #cbd2dd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+}
+
+.btn {
+  border: 1px solid #cbd2dd;
+  background: #fff;
+  color: #1c2333;
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.btn:hover:not(:disabled) { background: #eef1f6; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.primary { background: #f0b90b; border-color: #f0b90b; color: #14161f; font-weight: 700; }
+.btn.primary:hover:not(:disabled) { background: #d9a400; }
+.btn.good-btn { background: #dcfce7; border-color: #86efac; color: #14532d; }
+.btn.bad-btn { background: #fee2e2; border-color: #fca5a5; color: #7f1d1d; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.filter-btn {
+  border: 1px solid #cbd2dd;
+  background: #fff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.filter-btn.active { background: #14161f; color: #fff; border-color: #14161f; }
+
+.pact-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+
+.pact {
+  border: 1px solid #e3e6ec;
+  border-radius: 10px;
+  padding: 14px;
+  background: #fbfcfd;
+}
+.pact.past { opacity: 0.85; }
+
+.pact-head { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+.badge {
+  flex-shrink: 0;
+  background: #dcfce7;
+  color: #14532d;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.pact.past .badge { background: #e5e7eb; color: #4b5563; }
+
+.pact-meta { color: #5b6474; font-size: 0.9rem; margin: 8px 0; }
+.pact-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.pact-actions .status { background: #eef1f6; color: #37507a; }
+
+footer { padding: 8px 0 32px; color: #5b6474; font-size: 0.85rem; text-align: center; }
+
+@media (max-width: 560px) {
+  header h1 { font-size: 1.6rem; }
+  .card { padding: 16px; }
+}

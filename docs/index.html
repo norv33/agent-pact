@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentPact — Public commitments for Agent ID holders</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.0/dist/ethers.umd.min.js"></script>
+<script src="config.js"></script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>🤝 AgentPact</h1>
+    <p class="tagline">Public on-chain commitments for Agent ID holders. No money, no tokens, no fees — just your word, on BNB Chain.</p>
+    <div class="wallet-bar">
+      <button id="connectBtn" class="btn primary">Connect Wallet</button>
+      <span id="walletStatus" class="status">Not connected</span>
+      <span id="agentIdStatus" class="status">Agent ID: —</span>
+    </div>
+    <div id="deployNotice" class="notice hidden">
+      The AgentPact contract is not deployed on this network yet. The interface below is a preview — check back after the testnet deployment.
+    </div>
+    <div id="networkNotice" class="notice hidden"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card" id="createSection">
+    <h2>Create a pact</h2>
+    <p class="hint">Commit to something in public. Other Agent ID holders can join. After the deadline, every participant reports their own result: kept or broken.</p>
+    <label>
+      What will you do?
+      <input id="pactTitle" type="text" maxlength="140" placeholder="e.g. Ship my first dApp on BNB Chain">
+    </label>
+    <label>
+      Deadline (within 30 days)
+      <input id="pactDeadline" type="datetime-local">
+    </label>
+    <button id="createBtn" class="btn primary" disabled>Create pact</button>
+    <p id="createMsg" class="msg"></p>
+  </section>
+
+  <section class="card">
+    <h2>Pacts</h2>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="mine">Mine</button>
+      <button class="filter-btn" data-filter="open">Still open</button>
+      <button class="filter-btn" data-filter="past">Past deadline</button>
+    </div>
+    <div id="pactList" class="pact-list">
+      <p class="hint">Loading pacts…</p>
+    </div>
+    <button id="refreshBtn" class="btn">Refresh</button>
+  </section>
+
+  <section class="card small">
+    <h2>How it works</h2>
+    <ol>
+      <li><strong>Create</strong> — an Agent ID holder writes a commitment with a deadline (max 30 days). They automatically join their own pact.</li>
+      <li><strong>Join</strong> — other Agent ID holders join before the deadline.</li>
+      <li><strong>Resolve</strong> — after the deadline, each participant marks their own result: <em>kept</em> or <em>broken</em>. One report per person, and it cannot be changed.</li>
+    </ol>
+    <p class="hint">Agent ID is a non-transferable NFT, so one person holds at most one Agent ID — one wallet, one voice, one resolution per pact. AgentPact never asks for your seed phrase, private key, or pairing code. Every transaction is confirmed by you in your own wallet.</p>
+    <p class="hint" id="contractLine">Contract: not deployed yet.</p>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p>AgentPact — built for the Binance Agent ID Hackathon. Open source (MIT). No owner, no fees, no tokens.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
