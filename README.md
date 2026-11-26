@@ -30,7 +30,7 @@ Agent ID is a non-transferable ERC-721 (`0x60B9262456dE011F7d15a54cdd8c48baaa8b0
 Live frontend (GitHub Pages, static — no build step): serve the `docs/` folder.
 
 1. Open the site and click **Connect Wallet** (MetaMask or Binance Wallet, injected provider only).
-2. Switch to **BNB Smart Chain Testnet** (chain 97) if asked.
+2. Switch to **BNB Smart Chain mainnet** (chain 56) if asked.
 3. The site shows your Agent ID status (`Agent ID: Yes/No`) by reading `balanceOf` on the Agent ID contract.
 4. **Create a pact**: write what you will do (1–140 characters) and pick a deadline within 30 days. You automatically join your own pact.
 5. **Join** other people's pacts before their deadline.
@@ -42,8 +42,8 @@ AgentPact never asks for your seed phrase, private key, API secret, or pairing c
 
 | Network | Address | Explorer |
 |---|---|---|
+| BNB Chain mainnet (56) | `0x09332206622be2850bbac8ad64c22b89c22b7b40` | [bscscan.com](https://bscscan.com/address/0x09332206622be2850bbac8ad64c22b89c22b7b40) |
 | BSC Testnet (97) | `0xaEafE6c4820Df5F5Ca7C5D5Bf9296Cfc3f6c1AE3` | [testnet.bscscan.com](https://testnet.bscscan.com/address/0xaEafE6c4820Df5F5Ca7C5D5Bf9296Cfc3f6c1AE3) |
-| BNB Chain mainnet (56) | *not deployed yet* | — |
 
 Contract: [`contracts/AgentPact.sol`](contracts/AgentPact.sol) — Solidity ^0.8.20, no external dependencies (the Agent ID interface is defined inline, `balanceOf` only).
 
@@ -68,7 +68,7 @@ There is **no owner or admin**. The contract has no `payable` functions, no `rec
 - **No sensitive credentials.** The dApp never asks for seed phrases, private keys, API secrets, or pairing codes — anywhere.
 - **No promised returns.** Nothing here promises income or returns. There is no token and no yield.
 - **Not a wallet-lookup tool.** AgentPact does not expose or search other people's wallets by name. Agent ID is only used as a gate (`balanceOf > 0`) for the caller's own address.
-- **Open source.** The contract source is public in this repo and will be verified on BscScan after deployment.
+- **Open source.** The contract source is public in this repo and verified on Sourcify (exact match) on mainnet, which BscScan displays.
 
 ## Development
 
@@ -85,26 +85,29 @@ forge fmt --check
 forge build
 ```
 
-### Deploy (BSC Testnet)
+### Deploy (BNB Chain mainnet)
 
 ```bash
-# Deploy with a throwaway testnet-only key (never a real wallet key):
-forge script script/Deploy.s.sol --rpc-url bsc_testnet --broadcast --private-key <THROWAWAY_TESTNET_KEY>
+# Deploy with a throwaway mainnet-only key (never a real wallet key):
+forge script script/Deploy.s.sol --rpc-url bsc --broadcast --private-key <THROWAWAY_MAINNET_KEY>
 ```
 
-Get testnet BNB from the [BNB Chain testnet faucet](https://testnet.bnbchain.org/faucet-smart). To verify the source on BscScan testnet afterwards:
+To verify the source afterwards (Sourcify, no API key needed):
 
 ```bash
 forge verify-contract <ADDRESS> contracts/AgentPact.sol:AgentPact \
-  --chain 97 --etherscan-api-key <BSCSCAN_API_KEY>
+  --chain 56 --verifier sourcify
 ```
+
+Testnet deploys use `--rpc-url bsc_testnet` and `--chain 97` instead; get testnet BNB from the [BNB Chain testnet faucet](https://testnet.bnbchain.org/faucet-smart).
 
 ## Status (26 Nov 2026)
 
 - Contract written from scratch; **21/21 Foundry tests pass**.
 - Deploy script tested end-to-end on a local Anvil chain (deploy + `totalPacts()` + `AGENT_ID()` verified).
-- **Testnet deployment is pending**: the deployer key is ready (throwaway, testnet-only, stored outside the repo), but the official faucet requires solving a captcha in a browser, so no testnet BNB has been obtained yet. Once the throwaway address is funded with ~0.01 tBNB, run the deploy command above.
-- Mainnet deployment is intentionally not done yet — testnet first, per the hackathon flow.
+- **Testnet deployed 26 Nov 2026**: `0xaEafE6c4820Df5F5Ca7C5D5Bf9296Cfc3f6c1AE3` (tx `0xaf9bda237efaf9aefd394fa92abadcc93b7f79e0c1ae3b07a5b934a5656232ab`).
+- **Mainnet deployed 26 Nov 2026**: `0x09332206622be2850bbac8ad64c22b89c22b7b40` (tx `0x8d2d4370dbe7555c76126a403443984234b7cdb8d081086d0456a209d0d7ad4c`, block 135,786,044, gas 1,461,249 at 0.05 gwei ≈ 0.0000731 BNB). Source verified on Sourcify — exact match on creation and runtime bytecode.
+- Frontend and docs switched to mainnet. Hackathon submission is next (deadline 9 Dec 2026 15:00 WIB).
 
 ## License
 

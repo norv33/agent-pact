@@ -7,10 +7,12 @@ after the deadline. No money, no tokens, no fees — only gas.
 
 ## Network & addresses
 
+- **BNB Chain mainnet (chain 56)** — RPC: `https://bsc-dataseed.binance.org`
+  - AgentPact contract: `0x09332206622be2850bbac8ad64c22b89c22b7b40` (deployed 26 Nov 2026, tx `0x8d2d4370dbe7555c76126a403443984234b7cdb8d081086d0456a209d0d7ad4c`, block 135,786,044; source verified on Sourcify, exact match)
+  - Explorer: `https://bscscan.com`
 - **BSC Testnet (chain 97)** — RPC: `https://data-seed-prebsc-1-s1.binance.org:8545`
   - AgentPact contract: `0xaEafE6c4820Df5F5Ca7C5D5Bf9296Cfc3f6c1AE3` (deployed 26 Nov 2026, tx `0xaf9bda237efaf9aefd394fa92abadcc93b7f79e0c1ae3b07a5b934a5656232ab`)
   - Explorer: `https://testnet.bscscan.com`
-- **BNB Chain mainnet (chain 56)** — not deployed yet.
 - **Agent ID contract (both networks)**: `0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F`
   (SPACE ID, ERC-721, non-transferable, symbol `AI`).
   Check a holder: `balanceOf(address) > 0`.
@@ -56,8 +58,8 @@ Custom errors: `NotAgentIdHolder`, `InvalidTitle`, `InvalidDeadline`,
 ## Calling via cast (read-only examples)
 
 ```bash
-RPC=https://data-seed-prebsc-1-s1.binance.org:8545
-PACT=<DEPLOYED_ADDRESS>   # fill in after testnet deploy
+RPC=https://bsc-dataseed.binance.org
+PACT=0x09332206622be2850bbac8ad64c22b89c22b7b40   # mainnet deployment
 
 # How many pacts exist
 cast call $PACT "totalPacts()" --rpc-url $RPC
